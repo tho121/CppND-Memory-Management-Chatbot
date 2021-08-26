@@ -52,11 +52,7 @@ ChatBot::ChatBot(const ChatBot& other)
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 
-    _chatLogic = other._chatLogic;
-    _rootNode = other._rootNode;
-    //_currentNode = other._currentNode;
-
-    _image = new wxBitmap(*other._image);
+    *this = other;
 }
 
 ChatBot& ChatBot::operator=(const ChatBot& other)
@@ -65,7 +61,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other)
 
     _chatLogic = other._chatLogic;
     _rootNode = other._rootNode;
-    //_currentNode = other._currentNode;
+    _currentNode = other._currentNode;
 
     _image = new wxBitmap(*other._image);
 
@@ -76,11 +72,7 @@ ChatBot::ChatBot(ChatBot&& other)
 {
     std::cout << "ChatBot Move Constructor" << std::endl;
 
-    _chatLogic = other._chatLogic;
-    _rootNode = other._rootNode;
-    //_currentNode = other._currentNode;
-
-    _image = std::move(other._image);
+    *this = std::move(other);
 }
 
 ChatBot& ChatBot::operator=(ChatBot&& other)
@@ -95,6 +87,15 @@ ChatBot& ChatBot::operator=(ChatBot&& other)
         }
 
         _image = std::move(other._image);
+        other._image = nullptr;
+
+        _chatLogic = other._chatLogic;
+        _rootNode = other._rootNode;
+        _currentNode = other._currentNode;
+
+        other._chatLogic = nullptr;
+        other._rootNode = nullptr;
+        other._currentNode = nullptr;
     }
 
     return *this;

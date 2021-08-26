@@ -16,7 +16,12 @@ GraphNode::~GraphNode()
     //_chatBot may or may not be owned, will deallocate if so
     _chatBot.reset();
 
+    _parentEdges.clear();
 
+    for (auto it = std::begin(_childEdges); it != std::end(_childEdges); ++it)
+    {
+        (*it).reset();
+    }
     ////
     //// EOF STUDENT CODE
 }
@@ -26,14 +31,14 @@ void GraphNode::AddToken(std::string token)
     _answers.push_back(token);
 }
 
-void GraphNode::AddEdgeToParentNode(std::shared_ptr<GraphEdge> edge)
+void GraphNode::AddEdgeToParentNode(GraphEdge* edge)
 {
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(std::shared_ptr<GraphEdge> edge)
+void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 {
-    _childEdges.push_back(edge);
+    _childEdges.push_back(std::move(edge));
 }
 
 //// STUDENT CODE
