@@ -47,7 +47,6 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
-//deep copy
 ChatBot::ChatBot(const ChatBot& other)
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
@@ -55,6 +54,7 @@ ChatBot::ChatBot(const ChatBot& other)
     *this = other;
 }
 
+//deep copy
 ChatBot& ChatBot::operator=(const ChatBot& other)
 {
     std::cout << "ChatBot Copy Assignment" << std::endl;

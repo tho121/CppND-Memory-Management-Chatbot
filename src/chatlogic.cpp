@@ -217,12 +217,14 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     // add chatbot to graph root node
     _chatBot->SetRootNode(rootNode);
 
-    std::unique_ptr<ChatBot> chatBot = std::make_unique<ChatBot>(std::move(*_chatBot));//std::make_unique<ChatBot>("../images/chatbot.png");
-    //chatBot->SetChatLogicHandle(this);
-    //chatBot->SetRootNode(rootNode);
+    //move data to unique_ptr
+    std::unique_ptr<ChatBot> chatBot = std::make_unique<ChatBot>(std::move(*_chatBot));
+
     delete _chatBot;
 
+    //set _chatBot to unique_ptr to allow gui communication
     SetChatbotHandle(chatBot.get());
+
     rootNode->MoveChatbotHere(std::move(chatBot));
     
     ////
