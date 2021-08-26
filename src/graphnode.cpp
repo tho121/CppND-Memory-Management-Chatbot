@@ -14,7 +14,7 @@ GraphNode::~GraphNode()
 
     //delete _chatBot; 
     //_chatBot may or may not be owned, will deallocate if so
-    //_chatBot = NULL;
+    _chatBot.reset();
 
 
     ////
@@ -57,7 +57,7 @@ GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
 {
     //// STUDENT CODE
     ////
-    
+
     if(_childEdges.size() > index && _childEdges[index])
     {
         return _childEdges[index].get();

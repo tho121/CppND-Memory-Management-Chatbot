@@ -59,7 +59,7 @@ ChatBot::ChatBot(const ChatBot& other)
     _image = new wxBitmap(*other._image);
 }
 
-ChatBot &ChatBot::operator=(const ChatBot& other)
+ChatBot& ChatBot::operator=(const ChatBot& other)
 {
     std::cout << "ChatBot Copy Assignment" << std::endl;
 
@@ -83,7 +83,7 @@ ChatBot::ChatBot(ChatBot&& other)
     _image = std::move(other._image);
 }
 
-ChatBot &ChatBot::operator=(ChatBot&& other)
+ChatBot& ChatBot::operator=(ChatBot&& other)
 {
     std::cout << "ChatBot Move Assignment" << std::endl;
 
