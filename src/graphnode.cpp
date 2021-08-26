@@ -1,5 +1,6 @@
 #include "graphedge.h"
 #include "graphnode.h"
+#include <iostream>
 
 GraphNode::GraphNode(int id)
 {
@@ -12,8 +13,8 @@ GraphNode::~GraphNode()
     ////
 
     //delete _chatBot; 
-    //_chatBot is owned by ChatLogic, let it deallocate
-    _chatBot = NULL;
+    //_chatBot may or may not be owned, will deallocate if so
+    //_chatBot = NULL;
 
 
     ////
@@ -37,16 +38,17 @@ void GraphNode::AddEdgeToChildNode(std::shared_ptr<GraphEdge> edge)
 
 //// STUDENT CODE
 ////
-void GraphNode::MoveChatbotHere(ChatBot *chatbot)
+
+void GraphNode::MoveChatbotHere(std::unique_ptr<ChatBot> chatbot)
 {
-    _chatBot = chatbot;
+    _chatBot = std::move(chatbot);
     _chatBot->SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    newNode->MoveChatbotHere(std::move(_chatBot));
+    //_chatBot = nullptr; // invalidate pointer at source
 }
 ////
 //// EOF STUDENT CODE
@@ -55,8 +57,13 @@ GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
 {
     //// STUDENT CODE
     ////
-
-    return _childEdges[index].get();
+    
+    if(_childEdges.size() > index && _childEdges[index])
+    {
+        return _childEdges[index].get();
+    }
+    
+    return nullptr;
 
     ////
     //// EOF STUDENT CODE
