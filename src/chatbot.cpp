@@ -59,8 +59,7 @@ ChatBot::ChatBot(const ChatBot& other)
     _rootNode = other._rootNode;
     _currentNode = other._currentNode;
 
-    _image = new wxBitmap();
-    *_image = *other._image;
+    _image = new wxBitmap(*other._image);
 }
 
 //deep copy
@@ -76,8 +75,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other)
     _rootNode = other._rootNode;
     _currentNode = other._currentNode;
 
-    _image = new wxBitmap();
-    *_image = *other._image;
+    _image = new wxBitmap(*other._image);
 
     return *this;
 }
