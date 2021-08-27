@@ -63,7 +63,8 @@ ChatBot& ChatBot::operator=(const ChatBot& other)
     _rootNode = other._rootNode;
     _currentNode = other._currentNode;
 
-    _image = new wxBitmap(*other._image);
+    _image = new wxBitmap();
+    *_image = *other._image;
 
     return *this;
 }
@@ -71,6 +72,11 @@ ChatBot& ChatBot::operator=(const ChatBot& other)
 ChatBot::ChatBot(ChatBot&& other)
 {
     std::cout << "ChatBot Move Constructor" << std::endl;
+
+    _image = nullptr;
+    _chatLogic = nullptr;
+    _rootNode = nullptr;
+    _currentNode = nullptr;
 
     *this = std::move(other);
 }
@@ -81,13 +87,13 @@ ChatBot& ChatBot::operator=(ChatBot&& other)
 
     if (this != &other)
     {
-        if(_image != nullptr)
+        if(!(_image == nullptr || _image == NULL))
         {
             delete _image;
         }
 
         _image = std::move(other._image);
-        other._image = nullptr;
+        other._image = NULL;
 
         _chatLogic = other._chatLogic;
         _rootNode = other._rootNode;

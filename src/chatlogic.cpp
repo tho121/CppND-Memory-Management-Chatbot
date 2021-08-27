@@ -14,40 +14,12 @@
 
 ChatLogic::ChatLogic()
 {
-    //// STUDENT CODE
-    ////
 
-    // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
-
-    // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
-
-    ////
-    //// EOF STUDENT CODE
 }
 
 ChatLogic::~ChatLogic()
 {
-    //// STUDENT CODE
-    ////
 
-    // delete chatbot instance
-    _chatBot = nullptr;
-
-    // delete all nodes
-    for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    {
-        (*it).reset();
-    }
-
-    // delete all edges
-
-    //shared_ptr, will delete itself
-    //_edges.clear();
-
-    ////
-    //// EOF STUDENT CODE
 }
 
 template <typename T>
@@ -196,6 +168,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     //// STUDENT CODE
     ////
 
+    ChatBot temp_chatBot("../images/chatbot.png");
+
+    //move data to unique_ptr
+    std::unique_ptr<ChatBot> chatBot = std::make_unique<ChatBot>(std::move(temp_chatBot));
+    chatBot->SetChatLogicHandle(this);
+
     // identify root node
     GraphNode *rootNode = nullptr;
     for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
@@ -215,12 +193,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode);
-
-    //move data to unique_ptr
-    std::unique_ptr<ChatBot> chatBot = std::make_unique<ChatBot>(std::move(*_chatBot));
-
-    delete _chatBot;
+    chatBot->SetRootNode(rootNode);
 
     //set _chatBot to unique_ptr to allow gui communication
     SetChatbotHandle(chatBot.get());
