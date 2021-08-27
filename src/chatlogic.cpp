@@ -168,11 +168,9 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     //// STUDENT CODE
     ////
 
-    ChatBot temp_chatBot("../images/chatbot.png");
+    ChatBot chatBot("../images/chatbot.png");
 
-    //move data to unique_ptr
-    std::unique_ptr<ChatBot> chatBot = std::make_unique<ChatBot>(std::move(temp_chatBot));
-    chatBot->SetChatLogicHandle(this);
+    chatBot.SetChatLogicHandle(this);
 
     // identify root node
     GraphNode *rootNode = nullptr;
@@ -193,11 +191,8 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    chatBot->SetRootNode(rootNode);
-
-    //set _chatBot to unique_ptr to allow gui communication
-    SetChatbotHandle(chatBot.get());
-
+    chatBot.SetRootNode(rootNode);
+    
     rootNode->MoveChatbotHere(std::move(chatBot));
     
     ////
